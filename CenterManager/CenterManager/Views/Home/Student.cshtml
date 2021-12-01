@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CenterManager.Models.student>
+
+@{
+    ViewBag.Title = "Student";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+</head>
+<h2>Student</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<button id="getListStudent"> show student</button>
+<div class="test"></div>
+<script>
+    $(document).ready(function () {
+        $("#getListStudent").click(e => {
+            fetch("https://localhost:44368/api/Student", {
+                method: "GET",
+                headers: {
+                    'content-type': 'application/json'
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i].student_id)
+                        var htmlLoad = $(
+                            `<p>${data[i].student_id}</p>`
+                        )
+                        $(".test").append(htmlLoad)
+                    }
+        
+                })
+        })
+    })
+</script>
+</html>
