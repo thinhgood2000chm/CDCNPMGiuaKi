@@ -65,3 +65,7 @@ insert into class_student values('1324asd', '2342')
 insert into class_student values('sdfsz12', '89723h')
 insert into class_student values('123asd', '234231')
 
+
+use CenterManager
+select * from student
+select * from teacher
