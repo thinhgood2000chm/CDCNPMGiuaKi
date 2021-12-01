@@ -18,7 +18,7 @@ namespace CenterManager.Controllers
             return Ok(stDao.GetAllStudents());
         }
             // GET: api/Student/5
-            public IHttpActionResult Get(string id)
+        public IHttpActionResult Get(string id)
         { 
             var st = stDao.GetstudentByID(id);
             if(st != null)
