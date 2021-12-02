@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CenterManager.Models.subject>
+
+@{
+    ViewBag.Title = "Subjects";
+}
+<div class="row">
+    <div class="col-12">
+        <h2 class="text-center text-success text-uppercase"><strong>Danh sách môn học</strong></h2>
+        <div class="text-right">
+            @Html.ActionLink("Tạo môn học", "Create", null, new { @class = "btn btn-primary" })
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">STT</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.subject_id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.name)
+                    </th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int counter = 1;// Index start value
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@counter</td>
+                            <!--Mã môn học-->
+                            <td>
+                                @Html.DisplayFor(modelItem => item.subject_id)
+                            </td>
+                            <!--Tên môn học-->
+                            <td>
+                                @Html.ActionLink(item.name, "Details", new { id = item.subject_id })
+                            </td>
+                            <td>
+                                <a href="#" class="text-danger">xóa</a>
+                                |
+                                @Html.ActionLink("sửa", "Edit", new { id = item.subject_id })
+                            </td>
+                        </tr>
+                        counter++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
