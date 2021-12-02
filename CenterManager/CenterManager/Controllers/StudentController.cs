@@ -35,25 +35,28 @@ namespace CenterManager.Controllers
      
             if (string.IsNullOrEmpty(model.student_id))
             {
-                return BadRequest("chưa nhập id");
+                return Json(new {code =400, message = "chưa nhập id" });
+                //return BadRequest("chưa nhập id");
             }
             if (string.IsNullOrEmpty(model.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
             if (model.birthYear.ToString().Equals(""))
             {
-                return BadRequest("chưa nhập năm sinh");
+                return Json(new { code = 400, message = "chưa nhập năm sinh" });
             }
             if (student != null)
             {
-                return BadRequest("id học viên đã tồn tại");
+                return Json(new { code = 400, message = "id học viên đã tồn tại" });
+
             }
             if (stDao.AddStudent(model))
             {
-                return Ok("Thêm học viên thành công");
+                return  Json(new { code = 200, id = model.id, student_id= model.student_id, name = model.name, year = model.birthYear });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
+
         }
 
         // PUT: api/Student/5
