@@ -71,6 +71,7 @@ namespace CenterManager.Models
                 return null;
             }
         }
+        // update
         public bool UpdateSubject(subject s)
         {
             try
@@ -87,6 +88,7 @@ namespace CenterManager.Models
                 return false;
             }
         }
+        // delete
         public bool DeleteSubject(string subject_id)
         {
             try

@@ -77,7 +77,7 @@ namespace CenterManager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,subject_id,name")] subject subject)
+        public ActionResult Edit([Bind(Include = "subject_id,name")] subject subject)
         {
             if (ModelState.IsValid)
             {

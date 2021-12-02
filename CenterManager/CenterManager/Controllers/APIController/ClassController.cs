@@ -23,7 +23,7 @@ namespace CenterManager.Controllers
             var c = dao.GetClassByID(id);
             if (c == null)
             {
-                return BadRequest("ko tìm thấy lớp học với id =" + id);
+                return BadRequest("không tìm thấy lớp học với id =" + id);
             }
 
             return Ok(c);

@@ -25,7 +25,7 @@ namespace CenterManager.Controllers
             {
                 return Ok(st);
             }
-            return BadRequest("ko tìm thấy học viên với id =" + id);
+            return BadRequest("không tìm thấy học viên với id =" + id);
         }
 
         // POST: api/Student

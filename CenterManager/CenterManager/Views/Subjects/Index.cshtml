@@ -27,7 +27,7 @@
                     int counter = 1;// Index start value
                     foreach (var item in Model)
                     {
-                        <tr>
+                        <tr id="@item.subject_id">
                             <td class="text-center">@counter</td>
                             <!--Mã môn học-->
                             <td>
@@ -38,7 +38,7 @@
                                 @Html.ActionLink(item.name, "Details", new { id = item.subject_id })
                             </td>
                             <td>
-                                <a href="#" class="text-danger">xóa</a>
+                                <a href="javascript:;" class="text-danger">xóa</a>
                                 |
                                 @Html.ActionLink("sửa", "Edit", new { id = item.subject_id })
                             </td>

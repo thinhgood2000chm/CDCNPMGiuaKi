@@ -23,7 +23,7 @@ namespace CenterManager.Controllers
             var s = dao.GetSubjectByID(id);
             if (s == null)
             {
-                return BadRequest("ko tìm thấy môn học với id =" + id);
+                return BadRequest("không tìm thấy môn học với id =" + id);
             }
 
             return Ok(s);
