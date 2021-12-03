@@ -4,6 +4,10 @@ create database CenterManager
 go
 use CenterManager
 go 
+select * from class Join class_student on class.class_id = class_student.class_id
+
+join student on class_student.student_id = student.student_id
+
 create table student(
 	id int identity Primary key,
 	student_id nvarchar(50) unique not null,

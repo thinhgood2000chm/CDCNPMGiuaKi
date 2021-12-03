@@ -23,7 +23,7 @@ namespace CenterManager.Controllers
             var c = dao.GetClassByID(id);
             if (c == null)
             {
-                return BadRequest("ko tìm thấy lớp học với id =" + id);
+                return BadRequest("không tìm thấy lớp học với id =" + id);
             }
 
             return Ok(c);
@@ -35,7 +35,8 @@ namespace CenterManager.Controllers
         {
             // kiểm tra thông tin
             var c = dao.GetClassByID(model.class_id);
-            
+
+
             if (string.IsNullOrEmpty(model.class_id))
             {
                 return BadRequest("chưa nhập mã lớp học");
@@ -54,7 +55,23 @@ namespace CenterManager.Controllers
             }
             if (c != null)
             {
-                return BadRequest("id lớp học đã tồn tại");
+                return BadRequest("mã lớp học đã tồn tại");
+            }
+
+            // kiểm tra mã giáo viên có tồn tại không
+            teacherDao teacherDao = new teacherDao();
+            var t = teacherDao.GetTeacherByID(model.teacher_id);
+            if (t == null)
+            {
+                return BadRequest("mã giáo viên không tồn tại");
+            }
+
+            // kiểm tra mã môn học có tồn tại không
+            SubjectDAO subjectDAO = new SubjectDAO();
+            var s = subjectDAO.GetSubjectByID(model.subject_id);
+            if (s == null)
+            {
+                return BadRequest("mã môn học không tồn tại");
             }
 
             // thêm

@@ -30,6 +30,17 @@ namespace CenterManager.Models
         {
             return db.subjects.FirstOrDefault(s => s.subject_id == subject_id);
         }
+        public IEnumerable<subject> FindSubjects(String str)
+        {
+            IEnumerable<subject> rs;
+            var likeName = from m in db.subjects
+                       where m.name.Contains(str)
+                       select m;
+            var likeSubjectID = from m in db.subjects
+                           where m.name.Contains(str)
+                           select m;
+            return likeName;
+        }
         public bool UpdateSubject(subject s)
         {
             try
