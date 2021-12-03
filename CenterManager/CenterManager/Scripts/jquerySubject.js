@@ -170,6 +170,7 @@ function editSubject() {
             )
 
             $("#confirm-edit").modal('hide');
+            $("#edit-error").empty();
             $("#" + id).empty();
             $("#" + id).append(updateRow);
         }

@@ -12,9 +12,9 @@ namespace CenterManager.Controllers
     {
         ClassDAO dao = new ClassDAO();
         // GET api/Class
-        public IEnumerable<@class> Get()
+        public IHttpActionResult Get()
         {
-            return dao.GetAllClasses();
+            return Json(new { code = 200, data = dao.GetAllClasses() });
         }
 
         // GET api/Class/5
@@ -23,10 +23,10 @@ namespace CenterManager.Controllers
             var c = dao.GetClassByID(id);
             if (c == null)
             {
-                return BadRequest("không tìm thấy lớp học với id =" + id);
+                return Json(new { code = 400, message = "không tìm thấy lớp học với id: " + id });
             }
 
-            return Ok(c);
+            return Json(new { code = 200, data = c });
         }
 
         // POST api/Class
@@ -39,23 +39,23 @@ namespace CenterManager.Controllers
 
             if (string.IsNullOrEmpty(model.class_id))
             {
-                return BadRequest("chưa nhập mã lớp học");
+                return Json(new { code = 400, message = "chưa nhập mã lớp học" });
             }
             if (string.IsNullOrEmpty(model.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
             if (string.IsNullOrEmpty(model.subject_id))
             {
-                return BadRequest("chưa nhập mã môn học");
+                return Json(new { code = 400, message = "chưa nhập mã môn học" });
             }
             if (string.IsNullOrEmpty(model.teacher_id))
             {
-                return BadRequest("chưa nhập mã giáo viên");
+                return Json(new { code = 400, message = "chưa nhập mã giáo viên" });
             }
             if (c != null)
             {
-                return BadRequest("mã lớp học đã tồn tại");
+                return Json(new { code = 400, message = "mã lớp học đã tồn tại" });
             }
 
             // kiểm tra mã giáo viên có tồn tại không
@@ -63,7 +63,7 @@ namespace CenterManager.Controllers
             var t = teacherDao.GetTeacherByID(model.teacher_id);
             if (t == null)
             {
-                return BadRequest("mã giáo viên không tồn tại");
+                return Json(new { code = 400, message = "mã giáo viên không tồn tại" });
             }
 
             // kiểm tra mã môn học có tồn tại không
@@ -71,15 +71,15 @@ namespace CenterManager.Controllers
             var s = subjectDAO.GetSubjectByID(model.subject_id);
             if (s == null)
             {
-                return BadRequest("mã môn học không tồn tại");
+                return Json(new { code = 400, message = "mã môn học không tồn tại" });
             }
 
             // thêm
             if (dao.AddClass(model))
             {
-                return Ok("Thêm lớp học thành công");
+                return Json(new { code = 200, data = model });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
 
         // PUT api/Class/5
@@ -90,19 +90,35 @@ namespace CenterManager.Controllers
             var old_c = dao.GetClassByID(id);
             if (old_c == null)
             {
-                return BadRequest("lớp học không tồn tại");
+                return Json(new { code = 400, message = "mã lớp học không tồn tại" });
             }
             if (string.IsNullOrEmpty(c.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
             if (string.IsNullOrEmpty(c.subject_id))
             {
-                return BadRequest("chưa nhập mã môn học");
+                return Json(new { code = 400, message = "chưa nhập mã môn học" });
             }
             if (string.IsNullOrEmpty(c.teacher_id))
             {
-                return BadRequest("chưa nhập mã giáo viên");
+                return Json(new { code = 400, message = "chưa nhập mã giáo viên" });
+            }
+
+            // kiểm tra mã giáo viên có tồn tại không
+            teacherDao teacherDao = new teacherDao();
+            var t = teacherDao.GetTeacherByID(c.teacher_id);
+            if (t == null)
+            {
+                return Json(new { code = 400, message = "mã giáo viên không tồn tại" });
+            }
+
+            // kiểm tra mã môn học có tồn tại không
+            SubjectDAO subjectDAO = new SubjectDAO();
+            var s = subjectDAO.GetSubjectByID(c.subject_id);
+            if (s == null)
+            {
+                return Json(new { code = 400, message = "mã môn học không tồn tại" });
             }
 
             // cập nhật
@@ -112,9 +128,9 @@ namespace CenterManager.Controllers
 
             if (dao.UpdateClass(old_c))
             {
-                return Ok("cập nhật lớp học thành công");
+                return Json(new { code = 200, data = old_c });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
 
         // DELETE api/Class/5
@@ -123,13 +139,13 @@ namespace CenterManager.Controllers
             var c = dao.GetClassByID(id);
             if (c == null)
             {
-                return BadRequest("không tìm thấy lớp học");
+                return Json(new { code = 400, message = "không tìm thấy lớp học" });
             }
             if (dao.DeleteClass(id))
             {
-                return Ok("XÓA THÀNH CÔNG");
+                return Json(new { code = 200, data = c });
             }
-            return BadRequest("XÓA BỊ LỖI");
+            return Json(new { code = 400, message = "có lỗi khi xóa" });
         }
     }
 }
