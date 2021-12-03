@@ -9,14 +9,16 @@ namespace CenterManager.Controllers
 {
     public class HomeController : Controller
     {
-
-        // demo
-        WebSubjectDAO dao = new WebSubjectDAO();
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Trang chủ";
+            return View();
+        }
 
-            return View(dao.GetAllSubjects());
+        public ActionResult Subject()
+        {
+            ViewBag.Title = "Môn học";
+            return View();
         }
     }
 }

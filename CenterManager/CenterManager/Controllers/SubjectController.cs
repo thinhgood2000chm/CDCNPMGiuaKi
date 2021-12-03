@@ -12,9 +12,9 @@ namespace CenterManager.Controllers
     {
         SubjectDAO dao = new SubjectDAO();
         // GET api/Subject
-        public IEnumerable<subject> Get()
+        public IHttpActionResult Get()
         {
-            return dao.GetAllSubjects();
+            return Json(new { code = 200, data = dao.GetAllSubjects() });
         }
 
         // GET api/Subject/5
@@ -23,10 +23,10 @@ namespace CenterManager.Controllers
             var s = dao.GetSubjectByID(id);
             if (s == null)
             {
-                return BadRequest("không tìm thấy môn học với id =" + id);
+                return Json(new { code = 400, message = "không tìm thấy môn học với id: " + id });
             }
 
-            return Ok(s);
+            return Json(new { code = 200, data = s });
         }
 
         // POST api/Subject
@@ -37,23 +37,23 @@ namespace CenterManager.Controllers
 
             if (string.IsNullOrEmpty(model.subject_id))
             {
-                return BadRequest("chưa nhập mã môn học");
+                return Json(new { code = 400, message = "chưa nhập mã môn học" });
             }
             if (string.IsNullOrEmpty(model.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
             if (c != null)
             {
-                return BadRequest("id môn học đã tồn tại");
+                return Json(new { code = 400, message = "mã môn học đã tồn tại" });
             }
 
             // thêm
             if (dao.AddSubject(model))
             {
-                return Ok("Thêm môn học thành công");
+                return Json(new { code = 200, data = model });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
 
         // PUT api/Subject/5
@@ -64,11 +64,11 @@ namespace CenterManager.Controllers
             var old_s = dao.GetSubjectByID(id);
             if (old_s == null)
             {
-                return BadRequest("môn học không tồn tại");
+                return Json(new { code = 400, message = "mã môn học không tồn tại" });
             }
             if (string.IsNullOrEmpty(s.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
 
             // cập nhật
@@ -76,9 +76,9 @@ namespace CenterManager.Controllers
 
             if (dao.UpdateSubject(old_s))
             {
-                return Ok("cập nhật môn học thành công");
+                return Json(new { code = 200, data = old_s });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 500, message = "có lỗi xảy ra" });
         }
 
         // DELETE api/Subject/5
@@ -87,13 +87,13 @@ namespace CenterManager.Controllers
             var c = dao.GetSubjectByID(id);
             if (c == null)
             {
-                return BadRequest("không tìm thấy môn học");
+                return Json(new { code = 400, message = "không tìm thấy môn học với id: " + id });
             }
             if (dao.DeleteSubject(id))
             {
-                return Ok("XÓA THÀNH CÔNG");
+                return Json(new { code = 200, data = c });
             }
-            return BadRequest("XÓA BỊ LỖI");
+            return Json(new { code = 500, message = "xóa không thành công" });
         }
     }
 }
