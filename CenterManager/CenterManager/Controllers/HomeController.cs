@@ -26,5 +26,12 @@ namespace CenterManager.Controllers
 
             return View();
         }
+
+        public ActionResult Teacher()
+        {
+            ViewBag.Title = "teacher page";
+
+            return View();
+        }
     }
 }

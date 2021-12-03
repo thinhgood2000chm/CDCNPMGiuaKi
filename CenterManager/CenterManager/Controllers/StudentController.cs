@@ -65,23 +65,24 @@ namespace CenterManager.Controllers
             var oldStudent = stDao.GetstudentByID(id);
             if(oldStudent == null)
             {
-                return BadRequest("học viên không tồn tại");
+                return Json(new { code = 400, message = "học viên không tồn tại" });
+           
             }
             if (string.IsNullOrEmpty(model.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
             if (model.birthYear.ToString().Equals(""))
             {
-                return BadRequest("chưa nhập năm sinh");
+                return Json(new { code = 400, message = "chưa nhập năm sinh" });
             }
             oldStudent.name = model.name;
             oldStudent.birthYear = model.birthYear;
             if (stDao.UpdateStudent(oldStudent))
             {
-                return Ok("cập nhật học viên thành công");
+                return Json(new { code = 200, student_id = id, name = model.name, year = model.birthYear });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
 
 
         }
@@ -92,13 +93,14 @@ namespace CenterManager.Controllers
             var st = stDao.GetstudentByID(id);
             if (st == null)
             {
-                return BadRequest("không tìm thấy học viên");
+                return Json(new { code = 400, message = "không tìm thấy học viên" });
             }
             if (stDao.DeleteStudent(st))
             {
-                return Ok("XÓA THÀNH CÔNG");
+                return Json(new { code = 200, message = "XÓA THÀNH CÔNG" });
+
             }
-            return BadRequest("XÓA BỊ LỖI");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
     }
 }

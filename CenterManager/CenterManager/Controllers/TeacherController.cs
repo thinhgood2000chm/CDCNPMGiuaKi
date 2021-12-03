@@ -33,22 +33,22 @@ namespace CenterManager.Controllers
         {
             if (string.IsNullOrEmpty(model.teacher_id))
             {
-                return BadRequest("chưa nhập id");
+                return Json(new { code = 400, message = "chưa nhập id" });
             }
             if (string.IsNullOrEmpty(model.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
             var teacher = tcDao.GetTeacherByID(model.teacher_id);
             if (teacher != null)
             {
-                return BadRequest("id giáo viên đã tồn tại");
+                return Json(new { code = 400, message = "id giáo viên đã tồn tại" });
             }
             if (tcDao.AddTeacher(model))
             {
-                return Ok("Thêm giáo viên thành công");
+                return Json(new { code = 200, id = model.id, teacher_id = model.teacher_id, name = model.name });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
 
         // PUT: api/Teacher/5
@@ -57,18 +57,18 @@ namespace CenterManager.Controllers
             var oldTeacher = tcDao.GetTeacherByID(id);
             if (oldTeacher == null)
             {
-                return BadRequest("Gíao viên không tồn tại");
+                return Json(new { code = 400, message = "Gíao viên không tồn tại" });
             }
             if (string.IsNullOrEmpty(model.name))
             {
-                return BadRequest("chưa nhập tên");
+                return Json(new { code = 400, message = "chưa nhập tên" });
             }
             oldTeacher.name = model.name;
             if (tcDao.UpdateTeacher(oldTeacher))
             {
-                return Ok("Cập nhật giáo viên thành công");
+                return Json(new { code = 200, teacher_id = id, name = model.name });
             }
-            return BadRequest("có lỗi xảy ra");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
 
         // DELETE: api/Teacher/5
@@ -77,13 +77,13 @@ namespace CenterManager.Controllers
             var tc = tcDao.GetTeacherByID(id);
             if (tc == null)
             {
-                return BadRequest("không tìm thấy giáo viên");
+                return Json(new { code = 200, message = "không tìm thấy giáo viên" });
             }
             if (tcDao.DeleteTeacher(tc))
             {
-                return Ok("XÓA THÀNH CÔNG");
+                return Json(new { code = 200, message = "XÓA THÀNH CÔNG" });
             }
-            return BadRequest("XÓA BỊ LỖI");
+            return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
     }
 }
