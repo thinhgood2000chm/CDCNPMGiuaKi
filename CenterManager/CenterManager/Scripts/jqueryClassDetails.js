@@ -14,7 +14,6 @@ fetch("https://localhost:44368/api/Class/" + classID, {
 })
     .then(res => res.json())
     .then(data => {
-        console.log(data)
         if (data.code != 200) {
             document.location.href = '/Home/Class'
             alert("Không tìm thấy mã lớp học " + classID)
@@ -27,32 +26,55 @@ fetch("https://localhost:44368/api/Class/" + classID, {
     })
 
 // GET - /api/ClassDetails/5
-fetch("https://localhost:44368/api/ClassDetails/" + classID, {
-    method: "GET",
-    headers: {
-        'content-type': 'application/json'
-    },
-})
-    .then(res => res.json())
-    .then(data => {
-        for (var i = 0; i < data.data.length; i++) {
-            var htmlLoad = $(
-                `<tr id="${data.data[i].student_id}">
-                    <td class="text-center index">${i + 1}</td>
-                    <td>${data.data[i].student_id}</td>
-                    <td>${data.data[i].student_name}</td>
-                    <td>${data.data[i].student_birthYear}</td>
-                    <td>
-                        <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data[i].student_id}', '${data.data[i].student_name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
-                    </td>
-                </tr>`
-            )
-            $("tbody").append(htmlLoad)
-        }
-
+var currPage
+loadPage(1)
+function loadPage(page) {
+    currPage = page
+    fetch("https://localhost:44368/api/ClassDetails/" + classID + "?page=" + page, {
+        method: "GET",
+        headers: {
+            'content-type': 'application/json'
+        },
     })
+        .then(res => res.json())
+        .then(data => {
+            $("tbody").empty()
+            for (var i = 0; i < data.data.length; i++) {
+                var htmlLoad = $(
+                    `<tr id="${data.data[i].student_id}">
+                        <td class="text-center index">${(i + 1) + ((page - 1) * 10)}</td>
+                        <td>${data.data[i].student_id}</td>
+                        <td>${data.data[i].student_name}</td>
+                        <td>${data.data[i].student_birthYear}</td>
+                        <td>
+                            <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data[i].student_id}', '${data.data[i].student_name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
+                        </td>
+                    </tr>`
+                )
+                $("tbody").append(htmlLoad)
+            }
+            // paging
+            var maxPage = data.maxPage
+            $("#paging").empty();
+            for (var i = 1; i <= maxPage; i++) {
+                var liPaging;
+                if (i == page) {
+                    liPaging = `
+                        <li class="page-item active">
+                            <a class="page-link" href="javascript:void(0)">${i}</a>
+                        </li>`
+                } else {
+                    liPaging = `
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0)" onclick="loadPage(${i})">${i}</a>
+                        </li>`
+                }
+                $("#paging").append(liPaging)
+            }
+            //
+        })
 
-
+}
 //------ ADD ------
 function addStudent() {
     // get data
@@ -72,7 +94,6 @@ function addStudent() {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             if (data.code != 200) {
                 // add fail
                 $("#add-error").empty();
@@ -93,6 +114,7 @@ function addStudent() {
                     </tr>`
                 )
                 $("tbody").append(newRow)
+                updateRowIndex();
                 // reset form
                 $("#add-student-id").val("");
                 $("#add-error").empty();
@@ -148,9 +170,17 @@ function deleteClassDetails() {
 // update row index
 function updateRowIndex() {
     $("table tbody tr").each(function () {
-        $(this).find(".index").html($(this).index() + 1);
+        $(this).find(".index").html(($(this).index() + 1) + ((currPage - 1) * 5));
     });
 }
+
+// search when key up
+$("#searchInput").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $("tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+});
 
 // search in option
 /*$('select').selectize({

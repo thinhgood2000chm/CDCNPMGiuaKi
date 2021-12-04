@@ -6,9 +6,9 @@
     <h2 class="text-center text-success text-uppercase"><strong>Danh sách lớp học</strong></h2>
     <!--Search bar-->
     <div class="text-center">
-        <input type="text" placeholder="Tìm lớp học..." name="search" style="padding:5px">
+        <input id="searchInput" type="text" placeholder="Tìm lớp học..." name="search" style="padding:5px">
         <button class="btn btn-success">Tìm</button>
-    </div>   
+    </div>
 
     <!--Button add class-->
     <div class="text-right">
@@ -33,6 +33,12 @@
             <!--use jquery to load data-->
         </tbody>
     </table>
+    <!--Paging-->
+    <div class="text-center">
+        <ul id="paging" class="pagination">
+            <!--use jquery to load data-->
+        </ul>
+    </div>
 </div>
 
 

@@ -68,10 +68,7 @@ namespace CenterManager.Models
                                     student_name = s.name,
                                     student_birthYear = s.birthYear
                                 })
-                                .OrderBy(s => s.class_name)
-                                .ToList();
-            if (classDetails.Count() == 0)
-                return null;
+                                .OrderBy(s => s.student_name);
             return classDetails;
         }
         // get by student id

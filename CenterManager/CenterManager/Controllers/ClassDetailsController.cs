@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PagedList;
 
 namespace CenterManager.Controllers
 {
@@ -18,14 +19,19 @@ namespace CenterManager.Controllers
         }
 
         // GET api/ClassDetails/5
-        public IHttpActionResult Get(string id)
+        public IHttpActionResult Get(string id, int page = 1)
         {
             ClassDAO classDAO = new ClassDAO();
             var c = classDAO.GetClassByID(id);
             if (c == null)
                 return Json(new { code = 400, message = "không tìm thấy lớp học" });
-            var cs = dao.GetInfoByClassID(id);
-            return Json(new { code = 200, data = cs });
+            // paging
+            int size = 10; // số index tối đa mỗi trang
+            var allData = dao.GetInfoByClassID(id);
+            int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
+            if (maxPage % size != 0)
+                maxPage += 1;
+            return Json(new { code = 200, data = allData.ToPagedList(page, size), maxPage });
         }
 
         // POST api/ClassDetails
