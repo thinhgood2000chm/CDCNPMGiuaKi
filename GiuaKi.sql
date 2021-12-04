@@ -4,9 +4,19 @@ create database CenterManager
 go
 use CenterManager
 go 
-select * from class Join class_student on class.class_id = class_student.class_id
-
+/*join class - class_student - student*/
+select class_student.id, class.class_id, class.name, student.student_id, student.name, student.birthYear
+from class 
+Join class_student on class.class_id = class_student.class_id
 join student on class_student.student_id = student.student_id
+Order by class.name
+
+/*join class - subject - teacher*/
+SELECT class.class_id, class.name, class.subject_id, subject.name, class.teacher_id, teacher.name
+FROM class
+JOIN subject ON class.subject_id = subject.subject_id
+JOIN teacher ON class.teacher_id = teacher.teacher_id
+Order by class.name
 
 create table student(
 	id int identity Primary key,
