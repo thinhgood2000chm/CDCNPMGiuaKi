@@ -3,6 +3,35 @@
     ViewBag.Title = "Teacher";
 }
 
+
+<div class="row">
+    <div class="col-12">
+        <h2 class="text-center text-success text-uppercase"><strong>Danh sách giáo viên</strong></h2>
+        <!--Search bar-->
+        <div class="text-center">
+            <input id="searchInput" type="text" placeholder="Tìm giáo viên..." style="padding:5px">
+            <button class="btn btn-success">Tìm</button>
+        </div>
+        <div class="text-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateModal">
+                Thêm giáo viên
+            </button>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Id giáo viên </th>
+                    <th>Tên giáo viên </th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody id="bodyTable">
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -30,8 +59,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="CreateTeacher" class="btn btn-primary">LƯU</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" id="CreateTeacher" class="btn btn-primary">Thêm</button>
             </div>
         </div>
     </div>
@@ -64,28 +93,6 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
-        <h2 class="text-center text-success text-uppercase"><strong>Danh sách giáo viên</strong></h2>
-        <div class="text-right">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateModal">
-                Thêm giáo viên
-            </button>
-        </div>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th class="text-center">STT</th>
-                    <th class="text-center">Id giáo viên </th>
-                    <th class="text-center">Tên giáo viên </th>
-                    <th>Chức năng</th>
-                </tr>
-            </thead>
-            <tbody id="bodyTable">
-            </tbody>
-        </table>
-    </div>
-</div>
 
 
 <!-- Delete dialog -->

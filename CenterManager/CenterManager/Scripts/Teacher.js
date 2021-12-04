@@ -133,7 +133,7 @@ $(document).ready(function () {
 
     })
 
-    // xoas 
+    // xóa 
     $("#teacher-to-delete-input").click(e => {
         const btn = e.target
         const teacher_id = btn.dataset.id
@@ -156,3 +156,11 @@ $(document).ready(function () {
         $("#confirm-delete").modal('hide');
     })
 })
+
+// search when key up
+$("#searchInput").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $("tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+});
