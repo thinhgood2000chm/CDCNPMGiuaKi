@@ -12,10 +12,9 @@ namespace CenterManager.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class subject
+    public partial class userLogin
     {
-        public int id { get; set; }
-        public string subject_id { get; set; }
-        public string name { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }

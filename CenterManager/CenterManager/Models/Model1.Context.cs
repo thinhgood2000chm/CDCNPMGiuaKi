@@ -30,5 +30,6 @@ namespace CenterManager.Models
         public virtual DbSet<student> students { get; set; }
         public virtual DbSet<subject> subjects { get; set; }
         public virtual DbSet<teacher> teachers { get; set; }
+        public virtual DbSet<userLogin> userLogins { get; set; }
     }
 }
