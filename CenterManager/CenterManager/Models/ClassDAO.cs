@@ -44,10 +44,9 @@ namespace CenterManager.Models
         // get by id
         public @class GetClassByID(string class_id)
         {
-
             return db.classes.FirstOrDefault(i => i.class_id == class_id);
         }
-        // get by id all info
+        // get all info by id 
         public object GetClassInfoByID(string class_id)
         {
             var myClass = (from c in db.classes

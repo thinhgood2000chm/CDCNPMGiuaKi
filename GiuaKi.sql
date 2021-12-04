@@ -4,11 +4,11 @@ create database CenterManager
 go
 use CenterManager
 go 
-/*join class - class_student - student*/
+/*Details class: join class - class_student - student*/
 select class_student.id, class.class_id, class.name, student.student_id, student.name, student.birthYear
 from class 
-Join class_student on class.class_id = class_student.class_id
-join student on class_student.student_id = student.student_id
+left Join class_student on class.class_id = class_student.class_id
+left join student on class_student.student_id = student.student_id
 Order by class.name
 
 /*join class - subject - teacher*/

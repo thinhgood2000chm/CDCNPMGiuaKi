@@ -82,7 +82,7 @@ namespace CenterManager.Controllers
                 var newClass = dao.GetClassInfoByID(model.class_id);
                 return Json(new { code = 200, data = newClass });
             }
-            return Json(new { code = 400, message = "có lỗi xảy ra" });
+            return Json(new { code = 500, message = "có lỗi xảy ra" });
         }
 
         // PUT api/Class/5
@@ -134,7 +134,7 @@ namespace CenterManager.Controllers
                 var newClass = dao.GetClassInfoByID(old_c.class_id);
                 return Json(new { code = 200, data = newClass });
             }
-            return Json(new { code = 400, message = "có lỗi xảy ra" });
+            return Json(new { code = 500, message = "có lỗi xảy ra" });
         }
 
         // DELETE api/Class/5
@@ -150,7 +150,7 @@ namespace CenterManager.Controllers
             {
                 return Json(new { code = 200, data = oldClass });
             }
-            return Json(new { code = 400, message = "có lỗi khi xóa" });
+            return Json(new { code = 500, message = "có lỗi khi xóa" });
         }
     }
 }

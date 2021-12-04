@@ -25,6 +25,11 @@ namespace CenterManager.Controllers
             ViewBag.Title = "Lớp học";
             return View();
         }
+        public ActionResult ClassDetails()
+        {
+            ViewBag.Title = "Lớp học";
+            return View();
+        }
         public ActionResult Student()
         {
             ViewBag.Title = "student page";

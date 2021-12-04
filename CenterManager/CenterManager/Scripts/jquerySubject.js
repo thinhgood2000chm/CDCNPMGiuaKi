@@ -48,7 +48,7 @@ function addSubject() {
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            if (data.code === 400) {
+            if (data.code != 200) {
                 // add fail
                 $("#add-error").empty();
                 $("#add-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
@@ -72,6 +72,7 @@ function addSubject() {
                 // reset form
                 $("#add-subject-id").val("");
                 $("#add-subject-name").val("");
+                $("#add-error").empty();
                 // close dialog
                 $("#confirm-add").modal('hide');
             }
@@ -108,7 +109,7 @@ function deleteSubject() {
             //  update row index
             updateRowIndex();
         }
-        if (data.code === 400){
+        else {
             // delete failed
             $("#confirm-delete").modal('hide');
             alert("Xóa không thành công: " + data.message);
@@ -147,7 +148,7 @@ function editSubject() {
     })
     .then(res => res.json())
     .then(data => {
-        if (data.code === 400) {
+        if (data.code != 200) {
             // edit fail
             $("#edit-error").empty();
             $("#edit-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);

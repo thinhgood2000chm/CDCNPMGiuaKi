@@ -23,7 +23,7 @@ fetch("https://localhost:44368/api/class", {
                         |
                         <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data[i].class_id}', '${data.data[i].class_name}', '${data.data[i].subject_id}', '${data.data[i].teacher_id}')" data-target="#confirm-edit">sửa</a>
                         |
-                        <a href="#" class="text-info">danh sách học viên</a>
+                        <a href="ClassDetails/${data.data[i].class_id}" class="text-info">danh sách học viên</a>
                     </td>
                 </tr>`
             )
@@ -58,7 +58,7 @@ function addClass() {
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            if (data.code === 400) {
+            if (data.code != 200) {
                 // add fail
                 $("#add-error").empty();
                 $("#add-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
@@ -80,7 +80,7 @@ function addClass() {
                             |
                             <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data.class_id}', '${data.data.class_name}', '${data.data.subject_id}', '${data.data.teacher_id}')" data-target="#confirm-edit">sửa</a>
                             |
-                            <a href="#" class="text-info">danh sách học viên</a>
+                            <a href="ClassDetails/${data.data.class_id}" class="text-info">danh sách học viên</a>
                         </td>
                     </tr>`
                 )
@@ -90,6 +90,7 @@ function addClass() {
                 $("#add-class-name").val("");
                 $("#add-subject-id").val("");
                 $("add-teacher-id").val("");
+                $("#add-error").empty();
                 // close dialog
                 $("#confirm-add").modal('hide');
             }
@@ -125,8 +126,7 @@ function deleteSubject() {
                 $("#confirm-delete").modal('hide');
                 //  update row index
                 updateRowIndex();
-            }
-            if (data.code === 400) {
+            } else {
                 // delete failed
                 $("#confirm-delete").modal('hide');
                 alert("Xóa không thành công: " + data.message);
@@ -173,7 +173,7 @@ function editClass() {
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            if (data.code === 400) {
+            if (data.code != 200) {
                 // edit fail
                 $("#edit-error").empty();
                 $("#edit-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
@@ -196,7 +196,7 @@ function editClass() {
                         |
                         <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data.class_id}', '${data.data.class_name}', '${data.data.subject_id}', '${data.data.teacher_id}')" data-target="#confirm-edit">sửa</a>
                         |
-                        <a href="#" class="text-info">danh sách học viên</a>
+                        <a href="ClassDetails/${data.data.class_id}" class="text-info">danh sách học viên</a>
                     </td>
                     `
                 )
@@ -218,10 +218,15 @@ function updateRowIndex() {
     });
 }
 
-function getAllSubjectsID() {
+function getAllSubjects() {
     
 }
 
-function getAllTeachersID() {
+function getAllTeachers() {
 
 }
+
+// search in option
+$('select').selectize({
+    sortField: 'text'
+});
