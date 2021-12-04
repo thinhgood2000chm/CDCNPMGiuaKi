@@ -52,7 +52,13 @@ create table class_student(
 	student_id nvarchar(50),
 	class_id nvarchar(50),
 )
+create table userLogin(
+	username nvarchar(50)  not null  Primary key,
+	password nvarchar(50) not null,
+)
+insert into  userLogin values('admin', 'admin')
 
+select * from userLogin
 insert into  student values('1324asd', 'Nam', 2000)
 insert into student values('123asd', 'An', 2000)
 insert into student values('sdfsz12', 'Hong', 2000)
