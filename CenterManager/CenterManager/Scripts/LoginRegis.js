@@ -1,0 +1,63 @@
+﻿$(document).ready(function () {
+    $("#btnSubmit").click(() => {
+        username = $("#username").val()
+        password = $("#password").val()
+        var data = {
+            "username": username,
+            "password": password
+        }
+        fetch("https://localhost:44368/api/Login", {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code == 200) {
+                    document.cookie = "token=" + data.token
+                    window.location = "https://localhost:44368/Home/Index";
+                }
+                else {
+                    $("#login-error").empty();
+                    $("#login-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
+                }
+      
+            })
+    })
+
+    $("#btnRegister").click(() => {
+        username = $("#username").val()
+        password = $("#password").val()
+        confirmpassword = $("#ConfirmPassword").val()
+        if (confirmpassword !== password) {
+            $("#login-error").empty();
+            $("#login-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: mật khẩu nhập lại không trùng khớp</div>`);
+        }
+        var data = {
+            "username": username,
+            "password": password,
+        }
+        fetch("https://localhost:44368/api/Register", {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code == 200) {
+                    window.location = "https://localhost:44368/Home/Login";
+                }
+                else {
+                    $("#login-error").empty();
+                    $("#login-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
+                }
+      
+            })
+
+    })
+
+})

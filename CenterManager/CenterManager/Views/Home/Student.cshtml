@@ -41,15 +41,46 @@
                         <input type="text" class="form-control" id="student_birthYear" placeholder="nhập năm sinh học viên">
 
                     </div>
-                    <div id ="errMess" class="alert alert-danger">
- 
-                    </div>
+
+                    <div id="edit-error"></div>
                 </form>
-              
+
             </div>
             <div class="modal-footer">
-                <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id ="CreateStudent" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="CreateStudent" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit dialog -->
+<div class="modal fade" id="confirm-edit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><strong>Cập nhật học viên: </strong><strong id="student-to-edit"></strong></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!--Form edit subject-->
+                <div class="form-group">
+                    <label for="edit-student-name">Tên học viên</label>
+                    <input type="text" id="edit-student-name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="edit-student-year">Năm sinh học viên</label>
+                    <input type="text" id="edit-student-year" class="form-control" />
+                </div>
+
+                <div id="edit-error"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" id="student-to-edit-input">Lưu</button>
             </div>
         </div>
     </div>
@@ -74,11 +105,31 @@
                 </tr>
             </thead>
             <tbody id="bodyTable">
-
-                
-
             </tbody>
         </table>
+    </div>
+</div>
+
+
+<!-- Delete dialog -->
+<div class="modal fade" id="confirm-delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><strong>Xóa học viên</strong></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                Bạn có chắc rằng muốn xóa học viên <strong id="student-to-delete"></strong>
+            </div>
+            <div id="delete-error"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="student-to-delete-input">Xóa</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Không</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -96,13 +147,15 @@
                 for (var i = 0; i < data.length; i++) {
                     console.log(data[i].student_id)
                     var htmlLoad = $(
-                        `<tr>
-                                    <td>${data[i].id}</td>
-                                   <td>${data[i].student_id}</td>
-                                   <td>${data[i].name}</td>
-                                 <td>${data[i].birthYear}</td>
-                                 <td>${data[i].birthYear}</td>
-                             </tr>`
+                        `<tr id = ${data[i].student_id}>
+                            <td class ="index">${data[i].id}</td>
+                            <td>${data[i].student_id}</td>
+                            <td>${data[i].name}</td>
+                            <td>${data[i].birthYear}</td>
+                            <td> <a href="#" onclick="DeleteDialog('${data[i].student_id}','${data[i].name}')" class="text-danger" data-toggle="modal" onclick="DeleteDialog(this)" data-target="#confirm-delete">xóa</a>
+                                |
+                                <a href="#" data-toggle="modal" onclick="UpdateDialog('${data[i].student_id}','${data[i].name}', '${data[i].birthYear}')" data-target="#confirm-edit">sửa</a></td>
+                        </tr>`
                     )
                     $("#bodyTable").append(htmlLoad)
                 }
@@ -110,8 +163,8 @@
             })
 
         $("#CreateStudent").click(e => {
-          
-            window.$("#CreateModal").modal("hide");
+
+         
             var student_id = $("#student_id").val()
             var student_name = $("#student_name").val()
             var student_birthYear = $("#student_birthYear").val()
@@ -129,31 +182,48 @@
                 body: JSON.stringify(data),
 
             })
-                .then(res => 
+                .then(res =>
                     res.json()
                 )
                 .then(data => {
                     console.log(data.code, data.message)
                     if (data.code === 400) {
-              
-                        $("#errMess").text(data.message)
+
+                        $("#edit-error").empty();
+                        $("#edit-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
                     }
                     else {
-                  
+
                         var row = $(
-                            `<tr>
-                                    <td>${data.id}</td>
+                            `<tr  id = ${data.student_id}>
+                                    <td class ="index">${data.id}</td>
                                    <td>${data.student_id}</td>
                                    <td>${data.name}</td>
                                  <td>${data.year}</td>
-                                 <td>${data.year}</td>
+                                <td> <a href="#"  onclick="DeleteDialog('${data.student_id}','${data.name}')" class="text-danger" data-toggle="modal" onclick="DeleteDialog(this)" data-target="#confirm-delete">xóa</a>
+                                |
+                                <a href="#" data-toggle="modal" onclick="UpdateDialog('${data.student_id}','${data.name}', '${data.year}')" data-target="#confirm-edit">sửa</a>
+                               </td>
                              </tr>`
                         )
                         $("#bodyTable").append(row)
+                        window.$("#CreateModal").modal("hide");
+                        $("#student_id").val("")
+                        $("#student_name").val("")
+                        $("#student_birthYear").val("")
                     }
                 })
-     
+  
         })
+    
+
+
     })
 </script>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/Student.js")"></script>
+}
+
 </html>

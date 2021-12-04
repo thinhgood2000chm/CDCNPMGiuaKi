@@ -1,0 +1,158 @@
+﻿function UpdateTeacherDialog(teacher_id, name) {// phải sử dụng onclick trong th render html từ jquery ==> ko gọi được jquery 
+    let label = $('#teacher-to-edit');
+    let param = $('#teacher-to-edit-input');
+    label.html(teacher_id + " - " + name);
+    param.attr("data-id", teacher_id);// set attribute vào button cập nhật để gửi được id đi
+    $("#edit-teacher-name").val(name);
+
+}
+function DeleteTeacherDialog(teacher_id, name) {
+    let label = $('#teacher-to-delete');
+    let param = $('#teacher-to-delete-input');
+    label.html(teacher_id + " - " + name);
+    param.attr("data-id", teacher_id);// set attribute vào button cập nhật để gửi được id đi
+}
+
+$(document).ready(function () {
+
+    fetch("https://localhost:44368/api/Teacher", {
+        method: "GET",
+        headers: {
+            'content-type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i].teacher_id)
+                var htmlLoad = $(
+                    `<tr id = ${data[i].teacher_id}>
+                            <td class ="index">${data[i].id}</td>
+                            <td>${data[i].teacher_id}</td>
+                            <td>${data[i].name}</td>
+                            <td> <a href="#" onclick="DeleteTeacherDialog('${data[i].teacher_id}','${data[i].name}')" class="text-danger" data-toggle="modal" onclick="DeleteDialog(this)" data-target="#confirm-delete">xóa</a>
+                                |
+                                <a href="#" data-toggle="modal" onclick="UpdateTeacherDialog('${data[i].teacher_id}','${data[i].name}')" data-target="#confirm-edit">sửa</a></td>
+                        </tr>`
+                )
+                $("#bodyTable").append(htmlLoad)
+            }
+
+        })
+
+
+    // thêm giáo viên
+    $("#CreateTeacher").click(e => {
+        var teacher_id = $("#teacher_id").val()
+        var teacher_name = $("#teacher_name").val()
+        //console.log(student_id, student_name, student_birthYear)
+        var data = {
+            "teacher_id": teacher_id,
+            "name": teacher_name,
+        }
+        fetch("https://localhost:44368/api/Teacher", {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data),
+
+        })
+            .then(res =>
+                res.json()
+            )
+            .then(data => {
+                console.log(data.code, data.message)
+                if (data.code === 400) {
+                    $("#add-error").empty();
+                    $("#add-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
+                }
+                else {
+
+                    var row = $(
+                        `<tr id ="${data.teacher_id}">
+                                <td class ="index">${data.id}</td>
+                                <td>${data.teacher_id}</td>
+                                <td>${data.name}</td>
+                                <td> <a href="#" onclick="DeleteTeacherDialog('${data.teacher_id}','${data.name}')" class="text-danger" data-toggle="modal" onclick="DeleteDialog(this)" data-target="#confirm-delete">xóa</a>
+                                |
+                                <a href="#" data-toggle="modal" onclick="UpdateTeacherDialog('${data.teacher_id}','${data.name}')" data-target="#confirm-edit">sửa</a></td>
+                         </tr>`
+                    )
+                    $("#bodyTable").append(row)
+                    $("#CreateModal").modal("hide");
+                    $("#teacher_id").val("")
+                    $("#teacher_name").val("")
+                }
+            })
+    
+    })
+
+    // cập nhật giáo viên
+    $("#teacher-to-edit-input").click(e => {
+        const btn = e.target
+        const teacher_id = btn.dataset.id
+        const name = $("#edit-teacher-name").val()
+        var data = {
+            "name": name,
+        }
+        fetch('https://localhost:44368/api/Teacher/' + teacher_id, {
+            method: "PUT",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data),
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 400) {
+
+                    $("#edit-error").empty();
+                    $("#edit-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
+                }
+                else {
+                    var indexRow = $("#" + data.teacher_id).find(".index").html(); // lấy ra giá trị của stt dựa vào class = index
+                    console.log(data.teacher_id)
+                    let row = $("#"+data.teacher_id).empty()
+                    console.log(row)
+                    //console.log(indexRow)
+                    let data_in_row = $(`
+                                    <td class="index">${indexRow}</td>
+                                   <td>${data.teacher_id}</td>
+                                   <td>${data.name}</td>
+                                <td> <a href="#"  onclick="DeleteTeacherDialog('${data.teacher_id}','${data.name}')" class="text-danger" data-toggle="modal" onclick="DeleteDialog(this)" data-target="#confirm-delete">xóa</a>
+                                |
+                                <a href="#" data-toggle="modal" onclick="UpdateTeacherDialog('${data.teacher_id}','${data.name}')" data-target="#confirm-edit">sửa</a>
+                               </td>
+                                `)
+                    row.append(data_in_row)
+                    $("#confirm-edit").modal('hide');
+                }
+            })
+
+    })
+
+    // xoas 
+    $("#teacher-to-delete-input").click(e => {
+        const btn = e.target
+        const teacher_id = btn.dataset.id
+        fetch("https://localhost:44368/api/Teacher/" + teacher_id, {
+            method: "DELETE",
+            headers: {
+                'content-type': 'application/json'
+            },
+        }).then(res => res.json())
+            .then(data => {
+                if (data.code == 400) {
+                    $("#dalete-error").empty();
+                    $("#dalete-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+        $("#" + teacher_id).empty()
+        $("#confirm-delete").modal('hide');
+    })
+})
