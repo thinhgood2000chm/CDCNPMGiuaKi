@@ -8,6 +8,7 @@ namespace CenterManager.Models
     public class ClassDAO
     {
         CenterManagerEntities db = new CenterManagerEntities();
+        // add
         public bool AddClass(@class c)
         {
             try
@@ -22,14 +23,49 @@ namespace CenterManager.Models
             }
     
         }
-        public IEnumerable<@class> GetAllClasses()
+        // get all
+        public IEnumerable<object> GetAllClasses()
         {
-            return db.classes; 
+            // join class - subject - teacher; get class + subjeb name + teacher name
+            var classes = (from c in db.classes
+                              join s in db.subjects on c.subject_id equals s.subject_id
+                              join t in db.teachers on c.teacher_id equals t.teacher_id
+                              select new
+                              {
+                                  class_id = c.class_id,
+                                  class_name = c.name,
+                                  subject_id = c.subject_id,
+                                  subject_name = s.name,
+                                  teacher_id = c.teacher_id,
+                                  teacher_name = t.name
+                              }).ToList();
+            return classes;
         }
+        // get by id
         public @class GetClassByID(string class_id)
         {
+
             return db.classes.FirstOrDefault(i => i.class_id == class_id);
         }
+        // get by id all info
+        public object GetClassInfoByID(string class_id)
+        {
+            var myClass = (from c in db.classes
+                           join s in db.subjects on c.subject_id equals s.subject_id
+                           join t in db.teachers on c.teacher_id equals t.teacher_id
+                           where c.class_id == class_id
+                           select new
+                           {
+                               class_id = c.class_id,
+                               class_name = c.name,
+                               subject_id = c.subject_id,
+                               subject_name = s.name,
+                               teacher_id = c.teacher_id,
+                               teacher_name = t.name
+                           }).FirstOrDefault();
+            return myClass;
+        }
+        // update
         public bool UpdateClass(@class c)
         {
             try
@@ -42,6 +78,7 @@ namespace CenterManager.Models
                 return false;
             }
         }
+        // delete
         public bool DeleteClass(string class_id)
         {
             try

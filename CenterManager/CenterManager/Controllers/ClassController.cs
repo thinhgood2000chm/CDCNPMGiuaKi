@@ -25,8 +25,9 @@ namespace CenterManager.Controllers
             {
                 return Json(new { code = 400, message = "không tìm thấy lớp học với id: " + id });
             }
-
-            return Json(new { code = 200, data = c });
+            // return class with all info (join query - GET teacher name AND subject name)
+            var myClass = dao.GetClassInfoByID(id);
+            return Json(new { code = 200, data = myClass });
         }
 
         // POST api/Class
@@ -77,7 +78,9 @@ namespace CenterManager.Controllers
             // thêm
             if (dao.AddClass(model))
             {
-                return Json(new { code = 200, data = model });
+                // return class with all info
+                var newClass = dao.GetClassInfoByID(model.class_id);
+                return Json(new { code = 200, data = newClass });
             }
             return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
@@ -128,7 +131,8 @@ namespace CenterManager.Controllers
 
             if (dao.UpdateClass(old_c))
             {
-                return Json(new { code = 200, data = old_c });
+                var newClass = dao.GetClassInfoByID(old_c.class_id);
+                return Json(new { code = 200, data = newClass });
             }
             return Json(new { code = 400, message = "có lỗi xảy ra" });
         }
@@ -141,9 +145,10 @@ namespace CenterManager.Controllers
             {
                 return Json(new { code = 400, message = "không tìm thấy lớp học" });
             }
+            var oldClass = dao.GetClassInfoByID(id);
             if (dao.DeleteClass(id))
             {
-                return Json(new { code = 200, data = c });
+                return Json(new { code = 200, data = oldClass });
             }
             return Json(new { code = 400, message = "có lỗi khi xóa" });
         }

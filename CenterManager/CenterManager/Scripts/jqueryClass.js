@@ -1,5 +1,5 @@
 ﻿
-// load all subjects on load
+// load all classes
 fetch("https://localhost:44368/api/class", {
     method: "GET",
     headers: {
@@ -11,19 +11,21 @@ fetch("https://localhost:44368/api/class", {
         for (var i = 0; i < data.data.length; i++) {
             var htmlLoad = $(
                 `<tr id="${data.data[i].class_id}">
-                <td class="text-center index">${i + 1}</td>
-                <td>${data.data[i].class_id}</td>
-                <td>${data.data[i].name}</td>
-                <td>${data.data[i].subject_id}</td>
-                <td>${data.data[i].teacher_id}</td>
-                <td>
-                    <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data[i].class_id}', '${data.data[i].name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
-                    |
-                    <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data[i].class_id}', '${data.data[i].name}', '${data.data[i].subject_id}', '${data.data[i].teacher_id}')" data-target="#confirm-edit">sửa</a>
-                    |
-                    <a href="#" class="text-info">danh sách học viên</a>
-                </td>
-            </tr>`
+                    <td class="text-center index">${i + 1}</td>
+                    <td>${data.data[i].class_id}</td>
+                    <td>${data.data[i].class_name}</td>
+                    <td>${data.data[i].subject_id}</td>
+                    <td>${data.data[i].subject_name}</td>
+                    <td>${data.data[i].teacher_id}</td>
+                    <td>${data.data[i].teacher_name}</td>
+                    <td>
+                        <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data[i].class_id}', '${data.data[i].class_name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
+                        |
+                        <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data[i].class_id}', '${data.data[i].class_name}', '${data.data[i].subject_id}', '${data.data[i].teacher_id}')" data-target="#confirm-edit">sửa</a>
+                        |
+                        <a href="#" class="text-info">danh sách học viên</a>
+                    </td>
+                </tr>`
             )
             $("tbody").append(htmlLoad)
         }
@@ -68,13 +70,15 @@ function addClass() {
                     `<tr id="${data.data.class_id}">
                         <td class="text-center index">${rowNumber}</td>
                         <td>${data.data.class_id}</td>
-                        <td>${data.data.name}</td>
+                        <td>${data.data.class_name}</td>
                         <td>${data.data.subject_id}</td>
+                        <td>${data.data.subject_name}</td>
                         <td>${data.data.teacher_id}</td>
+                        <td>${data.data.teacher_name}</td>
                         <td>
-                            <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data.class_id}', '${data.data.name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
+                            <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data.class_id}', '${data.data.class_name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
                             |
-                            <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data.class_id}', '${data.data.name}', '${data.data.subject_id}', '${data.data.teacher_id}')" data-target="#confirm-edit">sửa</a>
+                            <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data.class_id}', '${data.data.class_name}', '${data.data.subject_id}', '${data.data.teacher_id}')" data-target="#confirm-edit">sửa</a>
                             |
                             <a href="#" class="text-info">danh sách học viên</a>
                         </td>
@@ -182,13 +186,15 @@ function editClass() {
                     `
                     <td class="text-center index">${indexRow}</td>
                     <td>${data.data.class_id}</td>
-                    <td>${data.data.name}</td>
+                    <td>${data.data.class_name}</td>
                     <td>${data.data.subject_id}</td>
+                    <td>${data.data.subject_name}</td>
                     <td>${data.data.teacher_id}</td>
+                    <td>${data.data.teacher_name}</td>
                     <td>
-                        <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data.class_id}', '${data.data.name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
+                        <a href="#" class="text-danger" onclick="updateDeleteDialog('${data.data.class_id}', '${data.data.class_name}')" data-toggle="modal" data-target="#confirm-delete">xóa</a>
                         |
-                        <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data.class_id}', '${data.data.name}', '${data.data.subject_id}', '${data.data.teacher_id}')" data-target="#confirm-edit">sửa</a>
+                        <a href="#" data-toggle="modal" onclick="updateEditDialog('${data.data.class_id}', '${data.data.class_name}', '${data.data.subject_id}', '${data.data.teacher_id}')" data-target="#confirm-edit">sửa</a>
                         |
                         <a href="#" class="text-info">danh sách học viên</a>
                     </td>
