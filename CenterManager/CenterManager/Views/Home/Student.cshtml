@@ -1,17 +1,6 @@
-﻿@model IEnumerable<CenterManager.Models.student>
-
-@{
+﻿@{
     ViewBag.Title = "Student";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
-
-
-</head>
-
-
 <div class="row">
     <div class="col-12">
         <h2 class="text-center text-success text-uppercase"><strong>Danh sách môn học</strong></h2>
@@ -39,6 +28,12 @@
             <tbody id="bodyTable">
             </tbody>
         </table>
+    </div>
+    <!--Paging-->
+    <div class="text-center">
+        <ul id="paging" class="pagination">
+            <!--use jquery to load data-->
+        </ul>
     </div>
 </div>
 <!-- Modal -->
@@ -135,97 +130,10 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
 
-        fetch("https://localhost:44368/api/Student", {
-            method: "GET",
-            headers: {
-                'content-type': 'application/json'
-            },
-        })
-            .then(res => res.json())
-            .then(data => {
-                for (var i = 0; i < data.length; i++) {
-                    console.log(data[i].student_id)
-                    var htmlLoad = $(
-                        `<tr id = ${data[i].student_id}>
-                            <td class ="index">${data[i].id}</td>
-                            <td>${data[i].student_id}</td>
-                            <td>${data[i].name}</td>
-                            <td>${data[i].birthYear}</td>
-                            <td> <a href="#" onclick="DeleteDialog('${data[i].student_id}','${data[i].name}')" class="text-danger" data-toggle="modal" onclick="DeleteDialog(this)" data-target="#confirm-delete">xóa</a>
-                                |
-                                <a href="#" data-toggle="modal" onclick="UpdateDialog('${data[i].student_id}','${data[i].name}', '${data[i].birthYear}')" data-target="#confirm-edit">sửa</a></td>
-                        </tr>`
-                    )
-                    $("#bodyTable").append(htmlLoad)
-                }
-
-            })
-
-        $("#CreateStudent").click(e => {
-
-
-            var student_id = $("#student_id").val()
-            var student_name = $("#student_name").val()
-            var student_birthYear = $("#student_birthYear").val()
-            //console.log(student_id, student_name, student_birthYear)
-            var data = {
-                "student_id": student_id,
-                "name": student_name,
-                "birthYear": student_birthYear
-            }
-            fetch("https://localhost:44368/api/Student", {
-                method: "POST",
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(data),
-
-            })
-                .then(res =>
-                    res.json()
-                )
-                .then(data => {
-                    console.log(data.code, data.message)
-                    if (data.code === 400) {
-
-                        $("#edit-error").empty();
-                        $("#edit-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
-                    }
-                    else {
-
-                        var row = $(
-                            `<tr  id = ${data.student_id}>
-                                    <td class ="index">${data.id}</td>
-                                   <td>${data.student_id}</td>
-                                   <td>${data.name}</td>
-                                 <td>${data.year}</td>
-                                <td> <a href="#"  onclick="DeleteDialog('${data.student_id}','${data.name}')" class="text-danger" data-toggle="modal" onclick="DeleteDialog(this)" data-target="#confirm-delete">xóa</a>
-                                |
-                                <a href="#" data-toggle="modal" onclick="UpdateDialog('${data.student_id}','${data.name}', '${data.year}')" data-target="#confirm-edit">sửa</a>
-                               </td>
-                             </tr>`
-                        )
-                        $("#bodyTable").append(row)
-                        window.$("#CreateModal").modal("hide");
-                        $("#student_id").val("")
-                        $("#student_name").val("")
-                        $("#student_birthYear").val("")
-                    }
-                })
-
-        })
-
-
-
-    })
-</script>
 
 @section Scripts
 {
     <script src="@Url.Content("~/Scripts/Student.js")"></script>
 }
 
-</html>

@@ -29,7 +29,7 @@ namespace CenterManager.Controllers
             int size = 10; // số index tối đa mỗi trang
             var allData = dao.GetInfoByClassID(id);
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
-            if (maxPage % size != 0)
+            if (allData.Count() % size != 0)
                 maxPage += 1;
             return Json(new { code = 200, data = allData.ToPagedList(page, size), maxPage });
         }
