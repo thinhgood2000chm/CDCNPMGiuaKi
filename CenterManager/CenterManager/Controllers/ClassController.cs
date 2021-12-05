@@ -31,7 +31,7 @@ namespace CenterManager.Controllers
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
             if (allData.Count() % size != 0)
                 maxPage += 1;
-            return Json(new { code = 200, data = allData.ToPagedList(page, size), maxPage });
+            return Json(new { code = 200, data = allData.ToPagedList(page, size), maxPage, count = allData.Count() });
         }
 
         // GET api/Class/5
