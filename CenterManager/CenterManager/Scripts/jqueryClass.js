@@ -259,11 +259,13 @@ $("#searchInput").on("keyup", function () {
     });
 });
 
+token = document.cookie.slice(6)
 
 // option choose subject
 fetch("https://localhost:44368/api/subject?size=100", {
     method: "GET",
     headers: {
+        'token': token,
         'content-type': 'application/json'
     },
 })
@@ -288,7 +290,9 @@ fetch("https://localhost:44368/api/subject?size=100", {
 // option choose teacher
 fetch("https://localhost:44368/api/teacher?size=100", {
     method: "GET",
+
     headers: {
+        'token': token,
         'content-type': 'application/json'
     },
 })

@@ -26,7 +26,7 @@ namespace CenterManager.Controllers
             {
                 return Json(new { code = 400, message = "Chưa đăng nhập" });
             }
-            int size = 10; // số index tối đa mỗi trang
+         
             var allData = dao.GetAllSubjects();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
             if (allData.Count() % size != 0)    // (9/10 = 0 => phải +1)
