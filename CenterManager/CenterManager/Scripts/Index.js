@@ -9,7 +9,6 @@ fetch("https://localhost:44368/api/Student", {
     .then(res => res.json())
     .then(data => {
         if (data.code != 200) {
-            alert("Code 500. Lỗi không xác định");
         } else {
             console.log(data.count)
             $("#numberStudent").html(data.count)
@@ -30,7 +29,6 @@ fetch("https://localhost:44368/api/Teacher", {
     .then(data => {
         console.log(data)
         if (data.code != 200) {
-            alert("Code 500. Lỗi không xác định");
         } else {
             console.log(data.count)
             $("#numberTeacher").html(data.count)
@@ -48,7 +46,6 @@ fetch("https://localhost:44368/api/Subject", {
     .then(res => res.json())
     .then(data => {
         if (data.code != 200) {
-            alert("Code 500. Lỗi không xác định");
         } else {
             $("#numberSubject").html(data.count)
             //
@@ -66,7 +63,6 @@ fetch("https://localhost:44368/api/Class", {
     .then(res => res.json())
     .then(data => {
         if (data.code != 200) {
-            alert("Code 500. Lỗi không xác định");
         } else {
             $("#numberClass").html(data.count)
             //

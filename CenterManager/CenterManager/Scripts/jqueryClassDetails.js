@@ -5,10 +5,12 @@ var classID = url.substring(url.lastIndexOf('/') + 1);
 if (classID.length == 0)
     document.location.href = '/Home/Class'
 var className;
+token = document.cookie.slice(6)
 // get class name
 fetch("https://localhost:44368/api/Class/" + classID, {
     method: "GET",
     headers: {
+        'token': token,
         'content-type': 'application/json'
     },
 })
@@ -33,6 +35,7 @@ function loadPage(page) {
     fetch("https://localhost:44368/api/ClassDetails/" + classID + "?page=" + page, {
         method: "GET",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     })
@@ -88,6 +91,7 @@ function addStudent() {
     fetch("https://localhost:44368/api/ClassDetails/", {
         method: "POST",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -103,7 +107,7 @@ function addStudent() {
                 // add success
                 var rowNumber = $('tbody tr').length + 1;
                 var newRow = $(
-                    `<tr id="${data.data.class_id}">
+                    `<tr id="${data.data.student_id}">
                         <td class="text-center index">${rowNumber}</td>
                         <td>${data.data.student_id}</td>
                         <td>${data.data.student_name}</td>
@@ -145,6 +149,7 @@ function deleteClassDetails() {
     fetch("https://localhost:44368/api/ClassDetails/", {
         method: "DELETE",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -186,6 +191,7 @@ $("#searchInput").on("keyup", function () {
 fetch("https://localhost:44368/api/student?size=100", {
     method: "GET",
     headers: {
+        'token': token,
         'content-type': 'application/json'
     },
 })
