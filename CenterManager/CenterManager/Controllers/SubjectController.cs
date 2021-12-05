@@ -13,9 +13,8 @@ namespace CenterManager.Controllers
     {
         SubjectDAO dao = new SubjectDAO();
         // GET api/Subject
-        public IHttpActionResult Get(int page = 1)
+        public IHttpActionResult Get(int page = 1, int size = 10)
         {
-            int size = 10; // số index tối đa mỗi trang
             var allData = dao.GetAllSubjects();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
             if (allData.Count() % size != 0)    // (9/10 = 0 => phải +1)

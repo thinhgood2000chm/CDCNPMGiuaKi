@@ -62,15 +62,20 @@
                     <label for="add-class-name">Tên lớp học</label>
                     <input type="text" placeholder="Nhập mã lớp học" id="add-class-name" class="form-control" />
                 </div>
-                <!--TODO: Option choose class id-->
+                <!--Option choose subject id-->
                 <div class="form-group">
-                    <label for="edit-class-name">Mã môn học</label>
-                    <input type="text" placeholder="Nhập mã môn học" id="add-subject-id" class="form-control" />
+                    <label for="option-add-subject">Chọn môn học</label>
+                    <select id="option-add-subject" class="form-control">
+
+                    </select>
                 </div>
-                <!--TODO: Option choose teacher id-->
+                
+                <!--Option choose teacher id-->
                 <div class="form-group">
-                    <label for="edit-class-name">Mã giáo viên</label>
-                    <input type="text" placeholder="Nhập mã giáo viên" id="add-teacher-id" class="form-control" />
+                    <label for="option-add-teacher">Chọn giáo viên</label>
+                    <select id="option-add-teacher" class="form-control">
+
+                    </select>
                 </div>
 
                 <div id="add-error"></div>
@@ -101,15 +106,18 @@
                     <label for="edit-class-name">Tên lớp học</label>
                     <input type="text" id="edit-class-name" class="form-control" />
                 </div>
-                <!--TODO: Option choose class id-->
+                <!--Option choose subject id-->
                 <div class="form-group">
-                    <label for="edit-class-name">Mã môn học</label>
-                    <input type="text" id="edit-subject-id" class="form-control" />
+                    <label for="option-edit-subject">Chọn môn học</label>
+                    <select id="option-edit-subject" class="form-control">
+                    </select>
                 </div>
-                <!--TODO: Option choose teacher id-->
+
+                <!--Option choose teacher id-->
                 <div class="form-group">
-                    <label for="edit-class-name">Mã giáo viên</label>
-                    <input type="text" id="edit-teacher-id" class="form-control" />
+                    <label for="option-edit-teacher">Chọn giáo viên</label>
+                    <select id="option-edit-teacher" class="form-control">
+                    </select>
                 </div>
 
                 <div id="edit-error"></div>
@@ -149,4 +157,5 @@
 @section Scripts
 {
     <script src="@Url.Content("~/Scripts/jqueryClass.js")"></script>
+    <script src="@Url.Content("~/Scripts/LoginRegis.js")"></script>
 }

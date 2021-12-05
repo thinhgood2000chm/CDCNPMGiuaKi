@@ -24,9 +24,8 @@
                     <li>@Html.ActionLink("Lớp học", "Class", "Home", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("Môn học", "Subject", "Home", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("Giáo viên", "Teacher", "Home", new { area = "" }, null)</li>
-                    <li ><a href="javascript:void(0)" id="Logout" style="margin-left:10rem">Đăng xuất</a></li>
+                    <li><a href="javascript:void(0)" id="Logout" style="margin-left:10rem">Đăng xuất</a></li>
                 </ul>
-                
             </div>
         </div>
     </div>
@@ -44,7 +43,3 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-@section Scripts
-{
-    <script src="@Url.Content("~/Scripts/LoginRegis.js")"></script>
-}

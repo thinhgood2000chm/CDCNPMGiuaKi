@@ -14,9 +14,9 @@ namespace CenterManager.Controllers
     {
         StudentDao stDao = new StudentDao();
         // GET: api/Student
-        public IHttpActionResult Get(int page = 1)
+        public IHttpActionResult Get(int page = 1, int size = 10)
         {
-            int size = 10; // số index tối đa mỗi trang
+            // số index tối đa mỗi trang
             var allData = stDao.GetAllStudents();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
             if (allData.Count() % size != 0)    // (11/10 = 1.1 => phải +1)

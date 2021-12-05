@@ -66,8 +66,8 @@ function addClass() {
     // get data
     var id = $("#add-class-id").val();
     var name = $("#add-class-name").val();
-    var s_id = $("#add-subject-id").val();
-    var t_id = $("#add-teacher-id").val();
+    var s_id = $("#option-add-subject").val();
+    var t_id = $("#option-add-teacher").val();
     var data = {
         "class_id": id,
         "name": name,
@@ -172,8 +172,8 @@ function updateEditDialog(id, name, s_id, t_id) {
     param.attr("data-id", id);
 
     $("#edit-class-name").val(name);
-    $("#edit-subject-id").val(s_id);
-    $("#edit-teacher-id").val(t_id);
+    $("#option-edit-subject").val(s_id);
+    $("#option-edit-teacher").val(t_id);
 }
 
 // edit class
@@ -181,8 +181,8 @@ function editClass() {
     // get data
     var id = $("#class-to-edit-input").attr("data-id");
     var name = $("#edit-class-name").val();
-    var s_id = $("#edit-subject-id").val();
-    var t_id = $("#edit-teacher-id").val();
+    var s_id = $("#option-edit-subject").val();
+    var t_id = $("#option-edit-teacher").val();
     var data = {
         "class_id": id,
         "name": name,
@@ -253,13 +253,51 @@ $("#searchInput").on("keyup", function () {
     });
 });
 
-function getAllSubjects() {
-    
-}
 
-function getAllTeachers() {
+// option choose subject
+fetch("https://localhost:44368/api/subject?size=100", {
+    method: "GET",
+    headers: {
+        'content-type': 'application/json'
+    },
+})
+    .then(res => res.json())
+    .then(data => {
+        if (data.code === 200) {
+            // add to optione
+            var subjects = data.data
+            for (var i = 0; i < subjects.length; i++) {
+                var row = $(`<option value="${subjects[i].subject_id}">${subjects[i].subject_id} - ${subjects[i].name}</option>`)
+                var row2 = $(`<option value="${subjects[i].subject_id}">${subjects[i].subject_id} - ${subjects[i].name}</option>`)
+                $("#option-add-subject").append(row)
+                $("#option-edit-subject").append(row2)
+            }
+        }
+        else {
+            alert("Không thể lấy danh sách môn học!")
+        }
 
-}
+    })
+
+// option choose teacher
+fetch("https://localhost:44368/api/teacher?size=100", {
+    method: "GET",
+    headers: {
+        'content-type': 'application/json'
+    },
+})
+    .then(res => res.json())
+    .then(data => {
+        // add to optione
+        var teachers = data.data
+        for (var i = 0; i < teachers.length; i++) {
+            var row = $(`<option value="${teachers[i].teacher_id}">${teachers[i].teacher_id} - ${teachers[i].name}</option>`)
+            var row2 = $(`<option value="${teachers[i].teacher_id}">${teachers[i].teacher_id} - ${teachers[i].name}</option>`)
+            $("#option-add-teacher").append(row)
+            $("#option-edit-teacher").append(row2)
+        }
+        
+    })
 
 // search in option
 /*$('select').selectize({

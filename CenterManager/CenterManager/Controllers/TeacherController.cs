@@ -13,9 +13,8 @@ namespace CenterManager.Controllers
     {
         teacherDao tcDao = new teacherDao();
         // GET: api/Teacher
-        public IHttpActionResult Get(int page = 1)
+        public IHttpActionResult Get(int page = 1, int size = 10)
         {
-            int size = 10; // số index tối đa mỗi trang
             var allData = tcDao.GetAllTeacher();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
             if (allData.Count() % size != 0)    // (9/10 = 0 => phải +1)

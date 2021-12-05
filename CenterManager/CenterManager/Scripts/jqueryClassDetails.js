@@ -78,7 +78,7 @@ function loadPage(page) {
 //------ ADD ------
 function addStudent() {
     // get data
-    var s_id = $("#add-student-id").val();
+    var s_id = $("#add-student").val();
     var data = {
         "class_id": classID,
         "student_id": s_id
@@ -182,6 +182,28 @@ $("#searchInput").on("keyup", function () {
     });
 });
 
+// option choose student
+fetch("https://localhost:44368/api/student?size=100", {
+    method: "GET",
+    headers: {
+        'content-type': 'application/json'
+    },
+})
+    .then(res => res.json())
+    .then(data => {
+        if (data.code === 200) {
+            // add to optione
+            var students = data.data
+            for (var i = 0; i < students.length; i++) {
+                var row = $(`<option value="${students[i].student_id}">${students[i].student_id} - ${students[i].name}</option>`)
+                $( "#add-student" ).append(row)
+            }
+        }
+        else {
+            alert("Không thể lấy danh sách học viên!")
+        }
+
+    })
 // search in option
 /*$('select').selectize({
     sortField: 'text'

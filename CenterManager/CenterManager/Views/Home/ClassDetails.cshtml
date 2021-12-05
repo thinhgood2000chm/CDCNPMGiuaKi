@@ -13,6 +13,7 @@
 
     <!--Button add class-->
     <div class="text-right">
+        <a href="/Home/Class" class="btn btn-info">Quay lại</a>
         <button class="btn btn-primary" data-toggle="modal" data-target="#confirm-add">Thêm học viên</button>
     </div>
 
@@ -52,17 +53,18 @@
 
             <div class="modal-body">
                 <!--Form add class-->
-                <div class="form-group">
-                    <label for="add-class-id">Mã học viên</label>
-                    <input type="text" placeholder="Nhập mã học viên" id="add-student-id" class="form-control" />
-                </div>
+                <label for="add-student">Chọn sinh viên:</label>
+                <!--Option choose student-->
+                <select id="add-student" class="form-control">
+
+                </select>
 
                 <div id="add-error"></div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn" data-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" onclick="addStudent()">Tạo</button>
+                <button type="button" class="btn btn-primary" onclick="addStudent()">Thêm</button>
             </div>
         </div>
     </div>
@@ -94,4 +96,5 @@
 @section Scripts
 {
     <script src="@Url.Content("~/Scripts/jqueryClassDetails.js")"></script>
+    <script src="@Url.Content("~/Scripts/LoginRegis.js")"></script>
 }
