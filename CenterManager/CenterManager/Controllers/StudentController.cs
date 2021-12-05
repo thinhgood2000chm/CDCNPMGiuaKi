@@ -15,7 +15,7 @@ namespace CenterManager.Controllers
         LoginRegis lg = new LoginRegis();
         StudentDao stDao = new StudentDao();
         // GET: api/Student
-        public IHttpActionResult Get(int page = 1)
+        public IHttpActionResult Get(int page = 1, int size = 10)
         {
             if (!Request.Headers.Contains("token"))
             {

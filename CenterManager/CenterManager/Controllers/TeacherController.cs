@@ -14,7 +14,7 @@ namespace CenterManager.Controllers
         teacherDao tcDao = new teacherDao();
         LoginRegis lg = new LoginRegis();
         // GET: api/Teacher
-        public IHttpActionResult Get(int page = 1)
+        public IHttpActionResult Get(int page = 1, int size = 10)
         {
             if (!Request.Headers.Contains("token"))
             {
@@ -26,7 +26,6 @@ namespace CenterManager.Controllers
             {
                 return Json(new { code = 400, message = "Chưa đăng nhập" });
             }
-            int size = 10; // số index tối đa mỗi trang
             var allData = tcDao.GetAllTeacher();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
             if (allData.Count() % size != 0)    // (9/10 = 0 => phải +1)
