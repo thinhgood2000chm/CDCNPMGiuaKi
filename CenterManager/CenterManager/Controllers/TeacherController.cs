@@ -31,7 +31,7 @@ namespace CenterManager.Controllers
             if (allData.Count() % size != 0)    // (9/10 = 0 => phải +1)
                 maxPage += 1;
 
-            return Ok(new { data = allData.OrderBy(e => e.id).ToPagedList(page, size), maxPage, count = allData.Count()});
+            return Ok(new {code = 200, data = allData.OrderBy(e => e.id).ToPagedList(page, size), maxPage, count = allData.Count() });
         }
 
         // GET: api/Teacher/5

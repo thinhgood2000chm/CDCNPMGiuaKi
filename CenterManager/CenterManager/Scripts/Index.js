@@ -18,6 +18,26 @@ fetch("https://localhost:44368/api/Student", {
 
     })
 
+
+fetch("https://localhost:44368/api/Teacher", {
+    method: "GET",
+    headers: {
+        'token': token,
+        'content-type': 'application/json'
+    },
+})
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        if (data.code != 200) {
+            alert("Code 500. Lỗi không xác định");
+        } else {
+            console.log(data.count)
+            $("#numberTeacher").html(data.count)
+            //
+        }
+
+    })
 fetch("https://localhost:44368/api/Subject", {
     method: "GET",
     headers: {
