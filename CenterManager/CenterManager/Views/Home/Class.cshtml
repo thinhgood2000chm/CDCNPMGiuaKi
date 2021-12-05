@@ -6,9 +6,9 @@
     <h2 class="text-center text-success text-uppercase"><strong>Danh sách lớp học</strong></h2>
     <!--Search bar-->
     <div class="text-center">
-        <input type="text" placeholder="Tìm lớp học..." name="search" style="padding:5px">
+        <input id="searchInput" type="text" placeholder="Tìm lớp học..." name="search" style="padding:5px">
         <button class="btn btn-success">Tìm</button>
-    </div>   
+    </div>
 
     <!--Button add class-->
     <div class="text-right">
@@ -33,6 +33,12 @@
             <!--use jquery to load data-->
         </tbody>
     </table>
+    <!--Paging-->
+    <div class="text-center">
+        <ul id="paging" class="pagination">
+            <!--use jquery to load data-->
+        </ul>
+    </div>
 </div>
 
 
@@ -56,10 +62,12 @@
                     <label for="add-class-name">Tên lớp học</label>
                     <input type="text" placeholder="Nhập mã lớp học" id="add-class-name" class="form-control" />
                 </div>
+                <!--TODO: Option choose class id-->
                 <div class="form-group">
                     <label for="edit-class-name">Mã môn học</label>
                     <input type="text" placeholder="Nhập mã môn học" id="add-subject-id" class="form-control" />
                 </div>
+                <!--TODO: Option choose teacher id-->
                 <div class="form-group">
                     <label for="edit-class-name">Mã giáo viên</label>
                     <input type="text" placeholder="Nhập mã giáo viên" id="add-teacher-id" class="form-control" />
@@ -93,10 +101,12 @@
                     <label for="edit-class-name">Tên lớp học</label>
                     <input type="text" id="edit-class-name" class="form-control" />
                 </div>
+                <!--TODO: Option choose class id-->
                 <div class="form-group">
                     <label for="edit-class-name">Mã môn học</label>
                     <input type="text" id="edit-subject-id" class="form-control" />
                 </div>
+                <!--TODO: Option choose teacher id-->
                 <div class="form-group">
                     <label for="edit-class-name">Mã giáo viên</label>
                     <input type="text" id="edit-teacher-id" class="form-control" />

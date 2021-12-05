@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PagedList;
 
 namespace CenterManager.Controllers
 {
@@ -12,9 +13,14 @@ namespace CenterManager.Controllers
     {
         SubjectDAO dao = new SubjectDAO();
         // GET api/Subject
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(int page = 1)
         {
-            return Json(new { code = 200, data = dao.GetAllSubjects() });
+            int size = 10; // số index tối đa mỗi trang
+            var allData = dao.GetAllSubjects();
+            int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
+            if (allData.Count() % size != 0)    // (9/10 = 0 => phải +1)
+                maxPage += 1;
+            return Json(new { code = 200, data = allData.OrderBy(e => e.name).ToPagedList(page, size), maxPage });
         }
 
         // GET api/Subject/5

@@ -38,16 +38,15 @@ namespace CenterManager.Models
                                   subject_name = s.name,
                                   teacher_id = c.teacher_id,
                                   teacher_name = t.name
-                              }).ToList();
+                              }).OrderBy(e => e.class_name);
             return classes;
         }
         // get by id
         public @class GetClassByID(string class_id)
         {
-
             return db.classes.FirstOrDefault(i => i.class_id == class_id);
         }
-        // get by id all info
+        // get all info by id 
         public object GetClassInfoByID(string class_id)
         {
             var myClass = (from c in db.classes

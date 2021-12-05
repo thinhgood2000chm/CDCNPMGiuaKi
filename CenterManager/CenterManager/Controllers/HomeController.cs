@@ -37,6 +37,11 @@ namespace CenterManager.Controllers
             ViewBag.Title = "Lớp học";
             return View();
         }
+        public ActionResult ClassDetails()
+        {
+            ViewBag.Title = "Lớp học";
+            return View();
+        }
         public ActionResult Student()
         {
             if (Request.Cookies["token"] == null)

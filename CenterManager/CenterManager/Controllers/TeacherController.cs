@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PagedList;
 
 namespace CenterManager.Controllers
 {
@@ -12,9 +13,15 @@ namespace CenterManager.Controllers
     {
         teacherDao tcDao = new teacherDao();
         // GET: api/Teacher
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(int page = 1)
         {
-            return Ok(tcDao.GetAllTeacher());
+            int size = 10; // số index tối đa mỗi trang
+            var allData = tcDao.GetAllTeacher();
+            int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
+            if (allData.Count() % size != 0)    // (9/10 = 0 => phải +1)
+                maxPage += 1;
+
+            return Ok(new { data = allData.OrderBy(e => e.id).ToPagedList(page, size), maxPage});
         }
 
         // GET: api/Teacher/5
