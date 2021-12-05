@@ -55,14 +55,16 @@ create table class_student(
 create table userLogin(
 	username nvarchar(50)  not null  Primary key,
 	password nvarchar(50) not null,
+	token nvarchar(100),
 )
-insert into  userLogin values('admin', 'admin')
+insert into  userLogin(username, password) values('admin', 'admin')
 
 select * from userLogin
 insert into  student values('1324asd', 'Nam', 2000)
 insert into student values('123asd', 'An', 2000)
 insert into student values('sdfsz12', 'Hong', 2000)
 
+select * from userLogin where token = 'fcb4d8b0-6a24-4a5f-b04f-46309f3d765c'
 
 insert into  teacher values('453', 'Hồng')
 insert into teacher values('123asd', 'Phúc')
@@ -89,3 +91,4 @@ insert into class_student values('123asd', '234231')
 use CenterManager
 select * from student
 select * from teacher
+select * from class

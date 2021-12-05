@@ -3,9 +3,11 @@ loadPage(1)
 // load all subjects on load
 function loadPage(page) {
     currPage = page
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/subject?page=" + page, {
         method: "GET",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     })
@@ -58,11 +60,12 @@ function addSubject() {
         "subject_id": id,
         "name": name
     }
-
+    token = document.cookie.slice(6)
     // request add: POST - api/Subject
     fetch("https://localhost:44368/api/Subject/", {
         method: "POST",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -96,7 +99,7 @@ function addSubject() {
                 $("#add-subject-name").val("");
                 $("#add-error").empty();
                 // close dialog
-                $("#confirm-add").modal('hide');
+                window.$("#confirm-add").modal('hide');
             }
         })
 }
@@ -114,11 +117,12 @@ function updateDeleteDialog(id, name) {
 function deleteSubject() {
     //get id
     var id = $("#subject-to-delete-input").attr("data-id");
-
+    token = document.cookie.slice(6)
     // request delete: DELETE - api/subject/5
     fetch("https://localhost:44368/api/subject/"+id, {
         method: "DELETE",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     })
@@ -133,7 +137,7 @@ function deleteSubject() {
         }
         else {
             // delete failed
-            $("#confirm-delete").modal('hide');
+            window.$("#confirm-delete").modal('hide');
             alert("Xóa không thành công: " + data.message);
         }
     })
@@ -159,11 +163,12 @@ function editSubject() {
         "subject_id": id,
         "name": name
     }
-
+    token = document.cookie.slice(6)
     // request edit: PUT - api/Subject/5
     fetch("https://localhost:44368/api/Subject/"+id, {
         method: "PUT",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -192,7 +197,7 @@ function editSubject() {
                 `
             )
 
-            $("#confirm-edit").modal('hide');
+            window. $("#confirm-edit").modal('hide');
             $("#edit-error").empty();
             $("#" + id).empty();
             $("#" + id).append(updateRow);

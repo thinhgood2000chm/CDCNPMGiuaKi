@@ -3,9 +3,11 @@ loadPage(1)
 // load all classes
 function loadPage(page) {
     currPage = page
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/class?page=" + page, {
         method: "GET",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     })
@@ -74,11 +76,12 @@ function addClass() {
         "subject_id": s_id,
         "teacher_id": t_id
     }
-
+    token = document.cookie.slice(6)
     // request add: POST - api/Class
     fetch("https://localhost:44368/api/Class/", {
         method: "POST",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -120,7 +123,7 @@ function addClass() {
                 $("add-teacher-id").val("");
                 $("#add-error").empty();
                 // close dialog
-                $("#confirm-add").modal('hide');
+                window.$("#confirm-add").modal('hide');
             }
         })
 }
@@ -138,12 +141,14 @@ function updateDeleteDialog(id, name) {
 function deleteSubject() {
     //get id
     var id = $("#class-to-delete-input").attr("data-id");
-
+    token = document.cookie.slice(6)
     // request delete: DELETE - api/class/5
     fetch("https://localhost:44368/api/class/" + id, {
         method: "DELETE",
         headers: {
+            'token': token,
             'content-type': 'application/json'
+
         },
     })
         .then(res => res.json())
@@ -156,7 +161,7 @@ function deleteSubject() {
                 updateRowIndex();
             } else {
                 // delete failed
-                $("#confirm-delete").modal('hide');
+                window.$("#confirm-delete").modal('hide');
                 alert("Xóa không thành công: " + data.message);
             }
         })
@@ -189,11 +194,12 @@ function editClass() {
         "subject_id": s_id,
         "teacher_id": t_id
     }
-
+    token = document.cookie.slice(6)
     // request edit: PUT - api/Class/5
     fetch("https://localhost:44368/api/Class/" + id, {
         method: "PUT",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -228,7 +234,7 @@ function editClass() {
                     `
                 )
 
-                $("#confirm-edit").modal('hide');
+                window.$("#confirm-edit").modal('hide');
                 $("#edit-error").empty();
                 $("#" + id).empty();
                 $("#" + id).append(updateRow);

@@ -15,9 +15,11 @@ function DeleteDialog(student_id, student_name) {
 }
 loadPage(1)
 function loadPage(page) {
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/Student?page="+ page, {
         method: "GET",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     })
@@ -74,9 +76,11 @@ $("#CreateStudent").click(e => {
         "name": student_name,
         "birthYear": student_birthYear
     }
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/Student", {
         method: "POST",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -126,9 +130,11 @@ $("#student-to-edit-input").click(e => {
         "name": name,
         "birthYear": birthYear
     }
+    token = document.cookie.slice(6)
     fetch('https://localhost:44368/api/Student/' + student_id, {
         method: "PUT",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -157,17 +163,20 @@ $("#student-to-edit-input").click(e => {
                             </td>
                             `)
                 row.append(data_in_row)
+                window.$("#confirm-edit").modal('hide');
             }
         })
-    $("#confirm-edit").modal('hide');
+
 })
 
 $("#student-to-delete-input").click(e => {
     const btn = e.target
     const student_id = btn.dataset.id
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/Student/" + student_id, {
         method: "DELETE",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     }).then(res => res.json())
@@ -177,11 +186,13 @@ $("#student-to-delete-input").click(e => {
                 $("#dalete-error").append(`<div class="alert alert-danger" style="margin-top:5px; padding:10px">Lỗi: ${data.message}</div>`);
             }
             else {
+                window.$("#confirm-delete").modal('hide');
                 alert(data.message)
+                $("#" + student_id).empty()
             }
         })
-    $("#" + student_id).empty()
-    $("#confirm-delete").modal('hide');
+
+
 })
 
 

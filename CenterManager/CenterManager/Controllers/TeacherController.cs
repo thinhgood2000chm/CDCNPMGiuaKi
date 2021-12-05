@@ -12,9 +12,20 @@ namespace CenterManager.Controllers
     public class TeacherController : ApiController
     {
         teacherDao tcDao = new teacherDao();
+        LoginRegis lg = new LoginRegis();
         // GET: api/Teacher
         public IHttpActionResult Get(int page = 1)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             int size = 10; // số index tối đa mỗi trang
             var allData = tcDao.GetAllTeacher();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
@@ -38,6 +49,16 @@ namespace CenterManager.Controllers
         // POST: api/Teacher
         public IHttpActionResult Post([FromBody]teacher model)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             if (string.IsNullOrEmpty(model.teacher_id))
             {
                 return Json(new { code = 400, message = "chưa nhập id" });
@@ -61,6 +82,16 @@ namespace CenterManager.Controllers
         // PUT: api/Teacher/5
         public IHttpActionResult Put(string id, [FromBody] teacher model)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             var oldTeacher = tcDao.GetTeacherByID(id);
             if (oldTeacher == null)
             {
@@ -81,6 +112,16 @@ namespace CenterManager.Controllers
         // DELETE: api/Teacher/5
         public IHttpActionResult Delete(string id)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             var tc = tcDao.GetTeacherByID(id);
             if (tc == null)
             {

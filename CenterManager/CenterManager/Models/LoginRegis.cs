@@ -26,6 +26,10 @@ namespace CenterManager.Models
          {
              return db.userLogins.FirstOrDefault(i => i.username == username);
          }
+        public userLogin GetAccountByToken(string token)
+        {
+            return db.userLogins.FirstOrDefault(i => i.token == token);
+        }
         public bool CheckLogin(string username, string password)
         {
             var acc = db.userLogins.FirstOrDefault(u => u.username == username && u.password == password);
@@ -34,6 +38,31 @@ namespace CenterManager.Models
                 return true;
             }
             return false;
+
+        }
+        public bool add_Token(userLogin u)
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        public bool Logout(userLogin u) {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
 
         }
     }

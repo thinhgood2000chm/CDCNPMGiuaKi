@@ -12,9 +12,20 @@ namespace CenterManager.Controllers
     public class SubjectController : ApiController
     {
         SubjectDAO dao = new SubjectDAO();
+        LoginRegis lg = new LoginRegis();
         // GET api/Subject
         public IHttpActionResult Get(int page = 1)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             int size = 10; // số index tối đa mỗi trang
             var allData = dao.GetAllSubjects();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
@@ -26,6 +37,16 @@ namespace CenterManager.Controllers
         // GET api/Subject/5
         public IHttpActionResult Get(string id)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             var s = dao.GetSubjectByID(id);
             if (s == null)
             {
@@ -38,6 +59,16 @@ namespace CenterManager.Controllers
         // POST api/Subject
         public IHttpActionResult Post([FromBody] subject model)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             // kiểm tra thông tin
             var c = dao.GetSubjectByID(model.subject_id);
 
@@ -66,6 +97,16 @@ namespace CenterManager.Controllers
         // edit
         public IHttpActionResult Put(string id, [FromBody] subject s)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             // kiểm tra thông tin
             var old_s = dao.GetSubjectByID(id);
             if (old_s == null)
@@ -90,6 +131,16 @@ namespace CenterManager.Controllers
         // DELETE api/Subject/5
         public IHttpActionResult Delete(string id)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             var c = dao.GetSubjectByID(id);
             if (c == null)
             {

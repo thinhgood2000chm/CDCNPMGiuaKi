@@ -12,10 +12,21 @@ namespace CenterManager.Controllers
 {
     public class StudentController : ApiController
     {
+        LoginRegis lg = new LoginRegis();
         StudentDao stDao = new StudentDao();
         // GET: api/Student
         public IHttpActionResult Get(int page = 1)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             int size = 10; // số index tối đa mỗi trang
             var allData = stDao.GetAllStudents();
             int maxPage = allData.Count() / size; // chia lấy nguyên (int/int => int)
@@ -37,6 +48,16 @@ namespace CenterManager.Controllers
         // POST: api/Student
         public IHttpActionResult Post([FromBody] student model)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             var student = stDao.GetstudentByID(model.student_id);
      
             if (string.IsNullOrEmpty(model.student_id))
@@ -68,6 +89,16 @@ namespace CenterManager.Controllers
         // PUT: api/Student/5
         public IHttpActionResult Put(string id,  student model)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             var oldStudent = stDao.GetstudentByID(id);
             if(oldStudent == null)
             {
@@ -96,6 +127,16 @@ namespace CenterManager.Controllers
         // DELETE: api/Student/5
         public IHttpActionResult Delete(string id)
         {
+            if (!Request.Headers.Contains("token"))
+            {
+                return Unauthorized();
+            }
+            var token = Request.Headers.GetValues("token").First();
+            var account = lg.GetAccountByToken(token);
+            if (account == null)
+            {
+                return Json(new { code = 400, message = "Chưa đăng nhập" });
+            }
             var st = stDao.GetstudentByID(id);
             if (st == null)
             {

@@ -14,9 +14,11 @@ function DeleteTeacherDialog(teacher_id, name) {
 }
 loadPage(1)
 function loadPage(page) {
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/Teacher?page=" + page, {
         method: "GET",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     })
@@ -67,9 +69,11 @@ $("#CreateTeacher").click(e => {
         "teacher_id": teacher_id,
         "name": teacher_name,
     }
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/Teacher", {
         method: "POST",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -97,7 +101,7 @@ $("#CreateTeacher").click(e => {
                         </tr>`
                 )
                 $("#bodyTable").append(row)
-                $("#CreateModal").modal("hide");
+                window.$("#CreateModal").modal("hide");
                 $("#teacher_id").val("")
                 $("#teacher_name").val("")
             }
@@ -113,9 +117,11 @@ $("#teacher-to-edit-input").click(e => {
     var data = {
         "name": name,
     }
+    token = document.cookie.slice(6)
     fetch('https://localhost:44368/api/Teacher/' + teacher_id, {
         method: "PUT",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
         body: JSON.stringify(data),
@@ -144,7 +150,7 @@ $("#teacher-to-edit-input").click(e => {
                             </td>
                             `)
                 row.append(data_in_row)
-                $("#confirm-edit").modal('hide');
+                window.$("#confirm-edit").modal('hide');
             }
         })
 
@@ -154,9 +160,11 @@ $("#teacher-to-edit-input").click(e => {
 $("#teacher-to-delete-input").click(e => {
     const btn = e.target
     const teacher_id = btn.dataset.id
+    token = document.cookie.slice(6)
     fetch("https://localhost:44368/api/Teacher/" + teacher_id, {
         method: "DELETE",
         headers: {
+            'token': token,
             'content-type': 'application/json'
         },
     }).then(res => res.json())
@@ -167,10 +175,11 @@ $("#teacher-to-delete-input").click(e => {
             }
             else {
                 alert(data.message)
+                $("#" + teacher_id).empty()
+                window.$("#confirm-delete").modal('hide');
             }
         })
-    $("#" + teacher_id).empty()
-    $("#confirm-delete").modal('hide');
+
 })
 
 
