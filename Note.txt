@@ -1,3 +1,0 @@
-Install-Package PagedList.Mvc
-
-Thêm dữ liệu thực tế
