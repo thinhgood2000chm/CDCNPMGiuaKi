@@ -38,7 +38,7 @@ namespace CenterManager.Models
                                   subject_name = s.name,
                                   teacher_id = c.teacher_id,
                                   teacher_name = t.name
-                              }).OrderBy(e => e.class_name);
+                              }).OrderBy(e => e.class_id);
             return classes;
         }
         // get by id

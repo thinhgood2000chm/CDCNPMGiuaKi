@@ -105,7 +105,7 @@ function addStudent() {
             }
             else {
                 // add success
-                var rowNumber = $('tbody tr').length + 1;
+                var rowNumber = $('tbody tr').length + 1 + ((currPage-1) * 10);
                 var newRow = $(
                     `<tr id="${data.data.student_id}">
                         <td class="text-center index">${rowNumber}</td>
@@ -175,7 +175,7 @@ function deleteClassDetails() {
 // update row index
 function updateRowIndex() {
     $("table tbody tr").each(function () {
-        $(this).find(".index").html(($(this).index() + 1) + ((currPage - 1) * 5));
+        $(this).find(".index").html(($(this).index() + 1) + ((currPage - 1) * 10));
     });
 }
 
